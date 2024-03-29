@@ -1,5 +1,6 @@
 package co.edu.uniquindio.unilocal.modelo;
 
+import co.edu.uniquindio.unilocal.enums.Estado;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -28,4 +29,6 @@ public class Evento implements Serializable {
     private String descripcion;
 
     private String idLugar;
+
+    private Estado estadoEvento;
 }
