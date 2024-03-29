@@ -1,4 +1,6 @@
 package co.edu.uniquindio.unilocal.servicios.impl;
 
-public class LugarServicioImpl {
+import co.edu.uniquindio.unilocal.servicios.interfaces.LugarServicio;
+
+public class LugarServicioImpl implements LugarServicio {
 }

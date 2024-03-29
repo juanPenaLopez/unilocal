@@ -1,4 +1,6 @@
 package co.edu.uniquindio.unilocal.servicios.impl;
 
-public class EventoServicioImpl {
+import co.edu.uniquindio.unilocal.servicios.interfaces.EventoServicio;
+
+public class EventoServicioImpl implements EventoServicio {
 }

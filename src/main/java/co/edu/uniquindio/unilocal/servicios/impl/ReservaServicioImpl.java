@@ -1,4 +1,6 @@
 package co.edu.uniquindio.unilocal.servicios.impl;
 
-public class ReservaServicioImpl {
+import co.edu.uniquindio.unilocal.servicios.interfaces.ReservaServicio;
+
+public class ReservaServicioImpl implements ReservaServicio {
 }
