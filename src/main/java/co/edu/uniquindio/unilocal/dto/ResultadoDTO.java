@@ -28,7 +28,7 @@ public class ResultadoDTO implements Serializable {
     /**
      * Atributo que determina el mensaje del error
      */
-    private List<MensajeErrorDTO> listaMensajesError = new ArrayList<>();
+    private List<String> listaMensajesError = new ArrayList<>();
 
     /**
      * Atributo que determina la lista de mensajes de informacion

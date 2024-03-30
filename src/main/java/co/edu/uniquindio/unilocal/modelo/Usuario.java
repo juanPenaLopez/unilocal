@@ -16,9 +16,6 @@ import java.io.Serializable;
 @ToString
 public class Usuario extends Cuenta implements Serializable {
 
-    @Id
-    private String codigo;
-
     private String nombreCompleto;
 
     private String urlFoto;

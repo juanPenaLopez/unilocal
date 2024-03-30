@@ -4,4 +4,8 @@ import co.edu.uniquindio.unilocal.modelo.Usuario;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface UsuarioRepo extends MongoRepository<Usuario, String> {
+
+    Usuario findByEmail(String email);
+
+    Usuario findByNickname(String nickname);
 }

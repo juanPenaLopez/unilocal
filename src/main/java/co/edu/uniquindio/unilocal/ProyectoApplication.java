@@ -1,4 +1,4 @@
-package co.edu.uniquindio.unilocal.aplicacion;
+package co.edu.uniquindio.unilocal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

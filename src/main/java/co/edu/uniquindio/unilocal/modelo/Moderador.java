@@ -15,6 +15,5 @@ import java.io.Serializable;
 @ToString
 public class Moderador extends Cuenta implements Serializable {
 
-    @Id
     private String codigo;
 }
