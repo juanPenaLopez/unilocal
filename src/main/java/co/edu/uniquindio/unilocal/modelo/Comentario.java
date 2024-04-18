@@ -26,4 +26,8 @@ public class Comentario implements Serializable {
     private String codigoLugar;
 
     private String respuesta;
+
+    private LocalDateTime fechaRespuesta;
+
+    private String idClienteRespuesta;
 }
