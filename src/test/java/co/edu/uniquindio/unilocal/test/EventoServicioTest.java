@@ -15,6 +15,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,7 +40,13 @@ public class EventoServicioTest {
 
     @Test
     void testCrearEvento() {
-        EventoDTO eventoDTO = new EventoDTO("Evento Test", "Descripción Test", LocalDate.now(), LocalDate.now().plusDays(1), "1");
+        EventoDTO eventoDTO = new EventoDTO(
+                "Evento Test",
+                LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0)),
+                LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(23, 59)),
+                "Descripción Test",
+                "1"
+        );
         when(eventoRepo.save(any(Evento.class))).thenAnswer(i -> i.getArguments()[0]);
 
         ResultadoDTO resultado = eventoServicio.crearEvento(eventoDTO);
@@ -53,7 +61,10 @@ public class EventoServicioTest {
         when(eventoRepo.findById("1")).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(Exception.class, () -> {
-            eventoServicio.modificarEvento(new ActualizarEventoDTO("1", "Evento Modificado", "Descripción Modificada", LocalDate.now(), LocalDate.now().plusDays(1)));
+            eventoServicio.modificarEvento(new ActualizarEventoDTO(
+                    "1", LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0)),
+                    LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(23, 59)),
+                    "Evento Modificado", null));
         });
 
         assertEquals("No se encuentra el evento con id: 1", exception.getMessage());
@@ -62,12 +73,14 @@ public class EventoServicioTest {
     @Test
     void testModificarEventoConFechaInvalida() {
         Evento eventoExistente = new Evento();
-        eventoExistente.setFechaInicio(LocalDate.now());
-        eventoExistente.setFechaFin(LocalDate.now().plusDays(2));
+        eventoExistente.setFechaInicio(LocalDateTime.now());
+        eventoExistente.setFechaFin(LocalDateTime.now().plusDays(2));
         when(eventoRepo.findById("1")).thenReturn(Optional.of(eventoExistente));
 
         Exception exception = assertThrows(Exception.class, () -> {
-            eventoServicio.modificarEvento(new ActualizarEventoDTO("1", "Evento Modificado", "Descripción Modificada", LocalDate.now().plusDays(3), LocalDate.now().plusDays(4)));
+            eventoServicio.modificarEvento(new ActualizarEventoDTO("1",
+                    LocalDateTime.now().plusDays(3), LocalDateTime.now().plusDays(4),
+                    "Evento Modificado", null));
         });
 
         assertTrue(exception.getMessage().contains("no pueden ser posteriores a la fecha fin originales"));
@@ -76,12 +89,16 @@ public class EventoServicioTest {
     @Test
     void testModificarEventoExitoso() throws Exception {
         Evento eventoExistente = new Evento();
-        eventoExistente.setFechaInicio(LocalDate.now());
-        eventoExistente.setFechaFin(LocalDate.now().plusDays(2));
+        eventoExistente.setFechaInicio(LocalDateTime.now());
+        eventoExistente.setFechaFin(LocalDateTime.now().plusDays(2));
         when(eventoRepo.findById("1")).thenReturn(Optional.of(eventoExistente));
         when(eventoRepo.save(any(Evento.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        ActualizarEventoDTO dto = new ActualizarEventoDTO("1", "Evento Modificado", "Descripción Modificada", LocalDate.now(), LocalDate.now().plusDays(1));
+        ActualizarEventoDTO dto = new ActualizarEventoDTO(
+                "1", LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0)),
+                LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(23, 59)),
+                "Evento Modificado", null);
+
         ResultadoDTO resultado = eventoServicio.modificarEvento(dto);
 
         assertTrue(resultado.isExitoso());
