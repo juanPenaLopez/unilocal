@@ -6,10 +6,6 @@ import co.edu.uniquindio.unilocal.dto.SesionDTO;
 import co.edu.uniquindio.unilocal.servicios.interfaces.CuentaServicio;
 
 public class CuentaServicioImpl implements CuentaServicio {
-    @Override
-    public void iniciarSesion(SesionDTO sesionDTO) throws Exception {
-
-    }
 
     @Override
     public ResultadoDTO eliminarCuenta(String idCuenta) throws Exception {

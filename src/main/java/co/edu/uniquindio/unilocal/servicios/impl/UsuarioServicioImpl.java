@@ -6,10 +6,15 @@ import co.edu.uniquindio.unilocal.modelo.Ciudad;
 import co.edu.uniquindio.unilocal.modelo.Usuario;
 import co.edu.uniquindio.unilocal.repositorios.CiudadRepo;
 import co.edu.uniquindio.unilocal.repositorios.UsuarioRepo;
+import co.edu.uniquindio.unilocal.servicios.interfaces.EmailServicio;
 import co.edu.uniquindio.unilocal.servicios.interfaces.UsuarioServicio;
+import co.edu.uniquindio.unilocal.utils.JWTUtils;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +28,8 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 
     private final UsuarioRepo usuarioRepo;
     private final CiudadRepo ciudadRepo;
+    private EmailServicio emailServicio;
+    private JWTUtils jwtUtils;
 
     @Override
     public ResultadoDTO eliminarCuenta(String idUsuario) throws Exception {
@@ -46,12 +53,54 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 
     @Override
     public ResultadoDTO enviarLinkRecuperacion(String email) throws Exception {
-        return null;
+
+        String token = generarToken();
+        String linkRecuperacion = "http://localhost:8080/recuperacion?token=" + token;
+
+        String asunto = "Recuperación de Contraseña";
+        String cuerpo = "<h1>Recuperación de Contraseña</h1>"
+                + "<p>Haz click en el siguiente enlace para restablecer tu contraseña:</p>"
+                + "<a href='" + linkRecuperacion + "'>Restablecer Contraseña</a>";
+
+        EmailDTO emailDTO = new EmailDTO(email, asunto, cuerpo);
+
+        return emailServicio.enviarCorreo(emailDTO);
     }
 
     @Override
     public ResultadoDTO cambiarPassword(CambioPasswordDTO cambioPasswordDTO) throws Exception {
-        return null;
+
+        ResultadoDTO resultadoDTO = new ResultadoDTO();
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if (!tokenValido(cambioPasswordDTO.token())) {
+            throw new Exception("Token inválido o expirado.");
+        }
+
+        Usuario usuario = usuarioRepo.findById(cambioPasswordDTO.id()).orElseThrow(() ->
+                new Exception("No se encuentra el usuario con el id proporcionado.")
+        );
+
+        usuario.setPassword(passwordEncoder.encode(cambioPasswordDTO.passwordNueva()));
+
+        usuarioRepo.save(usuario);
+
+        resultadoDTO.setExitoso(true);
+        resultadoDTO.setMensaje("Contraseña actualizada correctamente.");
+
+        return resultadoDTO;
+    }
+
+    private boolean tokenValido(String token) {
+        try {
+            // Uso del método parseJwt para validar el token
+            Claims claims = jwtUtils.parseJwt(token).getBody();
+            // Aquí puedes realizar más validaciones como verificar si el token pertenece al usuario, etc.
+            return true;
+        } catch (ExpiredJwtException | IllegalArgumentException e) {
+            return false;
+        }
     }
 
     @Override
@@ -135,5 +184,9 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 
     private boolean estaRepetidoNickName(@NotBlank String nickname){
         return usuarioRepo.findByNickname(nickname) != null;
+    }
+
+    private String generarToken() {
+        return Long.toHexString(Double.doubleToLongBits(Math.random()));
     }
 }
