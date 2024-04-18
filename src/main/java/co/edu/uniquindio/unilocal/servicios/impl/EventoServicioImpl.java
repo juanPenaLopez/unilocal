@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,6 +54,15 @@ public class EventoServicioImpl implements EventoServicio {
         }
 
         Evento evento = eventoOptional.get();
+
+        if (actualizarEventoDTO.fechaInicio().isAfter(evento.getFechaInicio())) {
+            throw new Exception("La nueva fecha de inicio no puede ser posterior a la fecha de inicio original.");
+        }
+
+        if (actualizarEventoDTO.fechaInicio().isAfter(evento.getFechaFin()) || actualizarEventoDTO.fechaFin().isAfter(evento.getFechaFin())) {
+            throw new Exception("Las nuevas fechas de inicio y/o fin no pueden ser posteriores a la fecha fin originales.");
+        }
+        
         evento.setNombre(actualizarEventoDTO.nombre());
         evento.setDescripcion(actualizarEventoDTO.descripcion());
         evento.setFechaInicio(actualizarEventoDTO.fechaInicio());
@@ -88,7 +98,7 @@ public class EventoServicioImpl implements EventoServicio {
     }
 
     @Override
-    public void listarEventosVigentesPorNegocio(String idNegocio) {
-
+    public List<Evento> listarEventosVigentesPorNegocio(String idNegocio) {
+        return eventoRepo.findAllByIdLugarAndEstadoEvento(idNegocio, Estado.ACTIVO);
     }
 }

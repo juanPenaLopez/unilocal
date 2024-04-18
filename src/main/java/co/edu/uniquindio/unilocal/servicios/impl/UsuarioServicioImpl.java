@@ -25,11 +25,6 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     private final CiudadRepo ciudadRepo;
 
     @Override
-    public void iniciarSesion(SesionDTO sesionDTO) throws Exception {
-
-    }
-
-    @Override
     public ResultadoDTO eliminarCuenta(String idUsuario) throws Exception {
 
         ResultadoDTO resultadoDTO = new ResultadoDTO();

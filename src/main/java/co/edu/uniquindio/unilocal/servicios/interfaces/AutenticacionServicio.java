@@ -5,5 +5,7 @@ import co.edu.uniquindio.unilocal.dto.TokenDTO;
 
 public interface AutenticacionServicio {
 
-    TokenDTO login(LoginDTO loginDTO) throws Exception;
+    TokenDTO iniciarSesionCliente(LoginDTO loginDTO) throws Exception;
+
+    TokenDTO iniciarSesionModerador(LoginDTO loginDTO) throws Exception;
 }

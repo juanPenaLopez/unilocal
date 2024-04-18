@@ -6,6 +6,8 @@ import co.edu.uniquindio.unilocal.modelo.Cuenta;
 import co.edu.uniquindio.unilocal.modelo.Moderador;
 import co.edu.uniquindio.unilocal.modelo.Usuario;
 import co.edu.uniquindio.unilocal.repositorios.CuentaRepo;
+import co.edu.uniquindio.unilocal.repositorios.ModeradorRepo;
+import co.edu.uniquindio.unilocal.repositorios.UsuarioRepo;
 import co.edu.uniquindio.unilocal.servicios.interfaces.AutenticacionServicio;
 import co.edu.uniquindio.unilocal.utils.JWTUtils;
 import lombok.RequiredArgsConstructor;
@@ -20,39 +22,51 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AutenticacionServicioImpl implements AutenticacionServicio {
 
-    private final CuentaRepo cuentaRepo;
+    private final UsuarioRepo usuarioRepo;
     private final JWTUtils jwtUtils;
+    private final ModeradorRepo moderadorRepo;
 
     @Override
-    public TokenDTO login(LoginDTO loginDTO) throws Exception {
+    public TokenDTO iniciarSesionCliente(LoginDTO loginDTO) throws Exception {
+
+        Usuario usuario = usuarioRepo.findByEmail(loginDTO.correo());
+
+        if (usuario == null) {
+            throw new Exception("El correo no se encuentra registrado");
+        }
+
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        Optional<Cuenta> cuentaOptional = cuentaRepo.findById(loginDTO.correo());
-        if(cuentaOptional.isEmpty()){
-            throw new Exception("No existe el correo ingresado");
-        }
-        Cuenta cuenta = cuentaOptional.get();
-        if( !passwordEncoder.matches(loginDTO.contrasena(), cuenta.getPassword()) ){
-            throw new Exception("La contraseña ingresada es incorrecta");
-        }
-        return new TokenDTO( crearToken(cuenta) );
-    }
 
-    private String crearToken(Cuenta cuenta){
-        String rol = "";
-        String nombre = "";
-
-        if( cuenta instanceof Usuario){
-            rol = "usuario";
-            nombre = ((Usuario) cuenta).getNombreCompleto();
-        }else if( cuenta instanceof Moderador){
-            rol = "moderador";
-            nombre = ((Moderador) cuenta).getCodigo();
+        if( !passwordEncoder.matches(loginDTO.contrasena(), usuario.getPassword()) ) {
+            throw new Exception("La contraseña es incorrecta");
         }
 
         Map<String, Object> map = new HashMap<>();
-        map.put("rol", rol);
-        map.put("nombre", nombre);
-        map.put("id", cuenta.getId());
-        return jwtUtils.generarToken(cuenta.getEmail(), map);
+        map.put("rol", "usuario");
+        map.put("nombre", usuario.getNombreCompleto());
+        map.put("id", usuario.getId());
+        return new TokenDTO( jwtUtils.generarToken(usuario.getEmail(), map) );
+    }
+
+    @Override
+    public TokenDTO iniciarSesionModerador(LoginDTO loginDTO) throws Exception {
+
+        Moderador moderador = moderadorRepo.findByEmail(loginDTO.correo());
+
+        if (moderador == null) {
+            throw new Exception("El correo no se encuentra registrado");
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if( !passwordEncoder.matches(loginDTO.contrasena(), moderador.getPassword()) ) {
+            throw new Exception("La contraseña es incorrecta");
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("rol", "moderador");
+        map.put("nombre", moderador.getCodigo());
+        map.put("id", moderador.getId());
+        return new TokenDTO( jwtUtils.generarToken(moderador.getEmail(), map) );
     }
 }

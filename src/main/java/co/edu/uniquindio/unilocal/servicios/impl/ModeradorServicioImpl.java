@@ -11,10 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ModeradorServicioImpl implements ModeradorServicio {
 
-    @Override
-    public void iniciarSesion(SesionDTO sesionDTO) throws Exception {
-
-    }
 
     @Override
     public ResultadoDTO eliminarCuenta(String idCuenta) throws Exception {

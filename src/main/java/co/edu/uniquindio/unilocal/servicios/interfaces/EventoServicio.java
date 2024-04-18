@@ -3,6 +3,9 @@ package co.edu.uniquindio.unilocal.servicios.interfaces;
 import co.edu.uniquindio.unilocal.dto.ActualizarEventoDTO;
 import co.edu.uniquindio.unilocal.dto.EventoDTO;
 import co.edu.uniquindio.unilocal.dto.ResultadoDTO;
+import co.edu.uniquindio.unilocal.modelo.Evento;
+
+import java.util.List;
 
 public interface EventoServicio {
 
@@ -12,5 +15,5 @@ public interface EventoServicio {
 
     ResultadoDTO eliminarEvento(String idEvento) throws Exception;
 
-    void listarEventosVigentesPorNegocio(String idNegocio);
+    List<Evento> listarEventosVigentesPorNegocio(String idNegocio);
 }
