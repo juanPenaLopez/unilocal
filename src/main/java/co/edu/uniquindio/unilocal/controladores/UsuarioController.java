@@ -1,5 +1,6 @@
 package co.edu.uniquindio.unilocal.controladores;
 
+import co.edu.uniquindio.unilocal.dto.ActualizarClienteDTO;
 import co.edu.uniquindio.unilocal.dto.RegistroClienteDTO;
 import co.edu.uniquindio.unilocal.dto.ResultadoDTO;
 import co.edu.uniquindio.unilocal.modelo.Usuario;
@@ -28,5 +29,10 @@ public class UsuarioController {
     @GetMapping("/consultar-perfil")
     public Usuario consultarPerfil(@RequestParam String idUsuario) throws Exception {
         return usuarioServicio.consultarPerfil(idUsuario);
+    }
+
+    @PutMapping("/editar-perfil")
+    public ResultadoDTO editarPerfil(@RequestBody @Valid ActualizarClienteDTO actualizarClienteDTO) throws Exception {
+        return usuarioServicio.editarPerfil(actualizarClienteDTO);
     }
 }

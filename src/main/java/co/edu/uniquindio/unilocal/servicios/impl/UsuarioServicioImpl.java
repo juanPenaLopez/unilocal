@@ -100,7 +100,27 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 
     @Override
     public ResultadoDTO editarPerfil(ActualizarClienteDTO actualizarClienteDTO) throws Exception {
-        return null;
+        ResultadoDTO resultadoDTO = new ResultadoDTO();
+
+        Optional<Usuario> usuarioBuscado = usuarioRepo.findById(actualizarClienteDTO.id());
+
+        if(usuarioBuscado.isEmpty()){
+            throw new Exception("No se encuentra el usuario con id: " + actualizarClienteDTO.id());
+        }
+
+        Usuario usuario = usuarioBuscado.get();
+
+        usuario.setNombreCompleto(actualizarClienteDTO.nombre());
+        usuario.setIdCiudad(actualizarClienteDTO.ciudadResidencia());
+        usuario.setEmail(actualizarClienteDTO.email());
+        usuario.setUrlFoto(actualizarClienteDTO.fotoPerfil());
+
+        usuarioRepo.save(usuario);
+
+        resultadoDTO.setExitoso(true);
+        resultadoDTO.setMensaje("Se actualizó correctamente el usuario");
+
+        return resultadoDTO;
     }
 
     @Override

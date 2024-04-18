@@ -1,18 +1,26 @@
 package co.edu.uniquindio.unilocal.servicios.interfaces;
 
+import co.edu.uniquindio.unilocal.dto.ActualizarNegocioDTO;
+import co.edu.uniquindio.unilocal.dto.ConsultarNegocioDTO;
+import co.edu.uniquindio.unilocal.dto.CrearLugarDTO;
+import co.edu.uniquindio.unilocal.dto.ResultadoDTO;
+import co.edu.uniquindio.unilocal.modelo.Lugar;
+
+import java.util.List;
+
 public interface LugarServicio {
 
-    void crearNegocio();
+    ResultadoDTO crearNegocio(CrearLugarDTO crearLugarDTO);
 
-    void actualizarNegocio();
+    ResultadoDTO actualizarNegocio(ActualizarNegocioDTO actualizarNegocioDTO) throws Exception;
 
-    void eliminarNegocio(String idNegocio);
+    ResultadoDTO eliminarNegocio(String idNegocio) throws Exception;
 
-    void buscarNegocios();
+    ConsultarNegocioDTO buscarNegocios(String idLugar);
 
     void filtrarPorEstado();
 
-    void listarNegociosPropietario();
+    List<Lugar> listarNegociosPropietario(String idUsuario);
 
     void cambiarEstado();
 

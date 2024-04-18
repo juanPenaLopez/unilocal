@@ -1,10 +1,16 @@
 package co.edu.uniquindio.unilocal.servicios.interfaces;
 
+import co.edu.uniquindio.unilocal.dto.ActualizarEventoDTO;
+import co.edu.uniquindio.unilocal.dto.EventoDTO;
+import co.edu.uniquindio.unilocal.dto.ResultadoDTO;
+
 public interface EventoServicio {
 
-    void crearEvento();
+    ResultadoDTO crearEvento(EventoDTO eventoDTO);
 
-    void modificarEvento();
+    ResultadoDTO modificarEvento(ActualizarEventoDTO actualizarEventoDTO) throws Exception;
 
-    void eliminarEvento();
+    ResultadoDTO eliminarEvento(String idEvento) throws Exception;
+
+    void listarEventosVigentesPorNegocio(String idNegocio);
 }
