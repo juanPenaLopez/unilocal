@@ -1,11 +1,9 @@
 package co.edu.uniquindio.unilocal.servicios.impl;
 
-import co.edu.uniquindio.unilocal.dto.ActualizarNegocioDTO;
-import co.edu.uniquindio.unilocal.dto.ConsultarNegocioDTO;
-import co.edu.uniquindio.unilocal.dto.CrearLugarDTO;
-import co.edu.uniquindio.unilocal.dto.ResultadoDTO;
+import co.edu.uniquindio.unilocal.dto.*;
 import co.edu.uniquindio.unilocal.enums.Estado;
 import co.edu.uniquindio.unilocal.modelo.Lugar;
+import co.edu.uniquindio.unilocal.modelo.Revision;
 import co.edu.uniquindio.unilocal.repositorios.LugarRepo;
 import co.edu.uniquindio.unilocal.servicios.interfaces.LugarServicio;
 import jakarta.validation.constraints.NotBlank;
@@ -16,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -115,8 +114,8 @@ public class LugarServicioImpl implements LugarServicio {
     }
 
     @Override
-    public void filtrarPorEstado() {
-
+    public List<Lugar> filtrarPorEstado(Estado estado) {
+        return lugarRepo.findAllByEstado(estado);
     }
 
     @Override
@@ -130,8 +129,32 @@ public class LugarServicioImpl implements LugarServicio {
     }
 
     @Override
-    public void registrarRevision() {
+    public ResultadoDTO registrarRevision(RegistrarRevisionDTO registrarRevisionDTO) throws Exception {
 
+        ResultadoDTO resultadoDTO = new ResultadoDTO();
+
+        Optional<Lugar> lugarOptional = lugarRepo.findById(registrarRevisionDTO.idLugar());
+
+        if(lugarOptional.isEmpty()){
+            throw new Exception("No existe el lugar con id: " + registrarRevisionDTO.idLugar());
+        }
+
+        Lugar lugar = lugarOptional.get();
+
+        Revision revision = new Revision();
+        revision.setEstadoRevision(registrarRevisionDTO.estadoRevision());
+        revision.setId(UUID.randomUUID().toString());
+        revision.setFecha(registrarRevisionDTO.fechaRevision());
+        revision.setIdModerador(registrarRevisionDTO.idModerador());
+
+        lugar.getRevisiones().add(revision);
+
+        lugarRepo.save(lugar);
+
+        resultadoDTO.setExitoso(true);
+        resultadoDTO.setMensaje("Se registró correctamente la revisión en el lugar");
+
+        return resultadoDTO;
     }
 
     private boolean estaRepetidoNombreNegocio(@NotBlank @NotEmpty String nombreNegocio){

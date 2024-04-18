@@ -1,5 +1,6 @@
 package co.edu.uniquindio.unilocal.repositorios;
 
+import co.edu.uniquindio.unilocal.enums.Estado;
 import co.edu.uniquindio.unilocal.modelo.Comentario;
 import co.edu.uniquindio.unilocal.modelo.Lugar;
 import org.springframework.data.mongodb.repository.Aggregation;
@@ -25,4 +26,6 @@ public interface LugarRepo extends MongoRepository<Lugar, String> {
             "{ $group: { _id: null, promedioCalificacion: { $avg: '$comentarios.calificacion' } } }"
     })
     Double calcularPromedioCalificaciones(String lugarId);
+
+    List<Lugar> findAllByEstado(Estado estado);
 }
