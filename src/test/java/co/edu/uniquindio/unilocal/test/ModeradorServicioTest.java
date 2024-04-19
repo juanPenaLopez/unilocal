@@ -53,7 +53,6 @@ class ModeradorServicioImplTest {
         // Arrange
         String idCuenta = "123";
         CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO(idCuenta, "123456", "654321");
-
         // Act
         ResultadoDTO resultadoDTO = moderadorServicio.cambiarPassword(cambioPasswordDTO);
 
