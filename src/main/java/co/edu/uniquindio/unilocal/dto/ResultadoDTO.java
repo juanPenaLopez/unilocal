@@ -40,4 +40,8 @@ public class ResultadoDTO implements Serializable {
      */
     private String mensaje;
 
+    public ResultadoDTO(boolean exitoso, String mensaje) {
+        this.exitoso = exitoso;
+        this.mensaje = mensaje;
+    }
 }

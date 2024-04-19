@@ -1,12 +1,17 @@
 package co.edu.uniquindio.unilocal.servicios.interfaces;
 
+import co.edu.uniquindio.unilocal.dto.ComentariosNegocioOutDTO;
+import co.edu.uniquindio.unilocal.dto.CrearComentarioDTO;
+import co.edu.uniquindio.unilocal.dto.RespuestaComentarioDTO;
+import co.edu.uniquindio.unilocal.dto.ResultadoDTO;
+
 public interface ComentarioServicio {
 
-    void crearComentario();
+    ResultadoDTO crearComentario(CrearComentarioDTO crearComentarioDTO) throws Exception;
 
-    void responderComentario();
+    ResultadoDTO responderComentario(RespuestaComentarioDTO respuestaComentarioDTO) throws Exception;
 
-    void listarComentariosNegocio();
+    ComentariosNegocioOutDTO listarComentariosNegocio(String idLugar);
 
-    void calcularPromedioCalificaciones();
+    Double calcularPromedioCalificacionesPorNegocio(String idLugar);
 }
