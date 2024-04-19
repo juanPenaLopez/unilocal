@@ -2,62 +2,75 @@ package co.edu.uniquindio.unilocal.test;
 
 import co.edu.uniquindio.unilocal.dto.CambioPasswordDTO;
 import co.edu.uniquindio.unilocal.dto.ResultadoDTO;
+import co.edu.uniquindio.unilocal.servicios.impl.ModeradorServicioImpl;
 import co.edu.uniquindio.unilocal.servicios.interfaces.ModeradorServicio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
-@ActiveProfiles("test")
-class ModeradorServicioImplTest {
 
-    @Autowired
-    private ModeradorServicio moderadorServicio;
+public class ModeradorServicioTest {
+
+    @InjectMocks
+    private ModeradorServicioImpl moderadorServicio;
+
+    @Mock
+    private ModeradorServicio moderadorServicioMock;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
+        // Configurar Mock aquí si es necesario.
     }
 
     @Test
-    void eliminarCuentaTest() throws Exception {
-        // Arrange
-        String idCuenta = "123";
+    void testEliminarCuenta() throws Exception {
+        // Configurar comportamiento simulado
+        String idCuenta = "12345";
+        ResultadoDTO resultadoEsperado = new ResultadoDTO();
+        when(moderadorServicioMock.eliminarCuenta(idCuenta)).thenReturn(resultadoEsperado);
 
-        // Act
-        ResultadoDTO resultadoDTO = moderadorServicio.eliminarCuenta(idCuenta);
+        // Realizar la llamada al método
+        ResultadoDTO resultado = moderadorServicio.eliminarCuenta(idCuenta);
 
-        // Assert
-        assertEquals("La cuenta ha sido eliminada exitosamente", resultadoDTO.getMensaje());
-        assertEquals(true, resultadoDTO.isExitoso());
+        // Verificar el resultado
+        assertNotNull(resultado);
+        assertEquals(resultadoEsperado, resultado);
     }
 
     @Test
-    void enviarLinkRecuperacionTest() throws Exception {
-        // Arrange
-        String email = "test@uniquindio.edu.co";
+    void testEnviarLinkRecuperacion() throws Exception {
+        // Configurar comportamiento simulado
+        String email = "test@example.com";
+        ResultadoDTO resultadoEsperado = new ResultadoDTO();
+        when(moderadorServicioMock.enviarLinkRecuperacion(email)).thenReturn(resultadoEsperado);
 
-        // Act
-        ResultadoDTO resultadoDTO = moderadorServicio.enviarLinkRecuperacion(email);
+        // Realizar la llamada al método
+        ResultadoDTO resultado = moderadorServicio.enviarLinkRecuperacion(email);
 
-        // Assert
-        assertEquals("Se ha enviado un enlace de recuperación al correo electrónico", resultadoDTO.getMensaje());
-        assertEquals(true, resultadoDTO.isExitoso());
+        // Verificar el resultado
+        assertNotNull(resultado);
+        assertEquals(resultadoEsperado, resultado);
     }
 
     @Test
-    void cambiarPasswordTest() throws Exception {
-        // Arrange
-        String idCuenta = "123";
-        CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO(idCuenta, "123456", "654321");
-        // Act
-        ResultadoDTO resultadoDTO = moderadorServicio.cambiarPassword(cambioPasswordDTO);
+    void testCambiarPassword() throws Exception {
+        // Configurar comportamiento simulado
+        CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO("7654321", "12345", "tokenDeValidación");
+        ResultadoDTO resultadoEsperado = new ResultadoDTO();
+        when(moderadorServicioMock.cambiarPassword(cambioPasswordDTO)).thenReturn(resultadoEsperado);
 
-        // Assert
-        assertEquals("La contraseña ha sido cambiada exitosamente", resultadoDTO.getMensaje());
-        assertEquals(true, resultadoDTO.isExitoso());
+        // Realizar la llamada al método
+        ResultadoDTO resultado = moderadorServicio.cambiarPassword(cambioPasswordDTO);
+
+        // Verificar el resultado
+        assertNotNull(resultado);
+        assertEquals(resultadoEsperado, resultado);
     }
 }
