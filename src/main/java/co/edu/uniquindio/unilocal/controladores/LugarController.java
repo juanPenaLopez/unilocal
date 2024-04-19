@@ -31,7 +31,7 @@ public class LugarController {
     }
 
     @DeleteMapping("/eliminar-lugar")
-    public ResultadoDTO eliminarNegocio(@PathVariable String idNegocio) throws Exception {
+    public ResultadoDTO eliminarNegocio(@RequestParam String idNegocio) throws Exception {
         return lugarServicio.eliminarNegocio(idNegocio);
     }
 
@@ -41,7 +41,12 @@ public class LugarController {
     }
 
     @GetMapping("/filtar-lugares-estado")
-    public List<Lugar> filtrarPorEstado(@PathVariable Estado estado){
+    public List<Lugar> filtrarPorEstado(@RequestParam Estado estado){
         return lugarServicio.filtrarPorEstado(estado);
+    }
+
+    @GetMapping("/buscar-negocios")
+    public Lugar buscarNegocios(@RequestParam String idLugar) throws Exception {
+        return lugarServicio.buscarNegocios(idLugar);
     }
 }

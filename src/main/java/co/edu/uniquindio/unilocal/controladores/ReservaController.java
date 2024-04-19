@@ -24,13 +24,13 @@ public class ReservaController {
     }
 
     @DeleteMapping("/cancelar-reserva")
-    public ResultadoDTO cancelarReserva(@PathVariable String idReserva) throws Exception{
+    public ResultadoDTO cancelarReserva(@RequestParam String idReserva) throws Exception{
         return reservaServicio.cancelarReserva(idReserva);
     }
 
     @GetMapping("/consultar-reservas-estado-usuario")
-    public List<Reserva> consultarReservasPorEstadoUsuario(@PathVariable String idUsuario,
-                                                           @PathVariable EstadoReserva estadoReserva){
+    public List<Reserva> consultarReservasPorEstadoUsuario(@RequestParam String idUsuario,
+                                                           @RequestParam EstadoReserva estadoReserva){
         return reservaServicio.consultarReservasPorEstadoUsuario(idUsuario, estadoReserva);
     }
 
@@ -40,8 +40,8 @@ public class ReservaController {
     }
 
     @GetMapping("/consultar-reserva-lugar-usuario")
-    public List<Reserva> consultarReservaPorLugarUsuario(@PathVariable String idUsuario,
-                                                         @PathVariable String idLugar){
+    public List<Reserva> consultarReservaPorLugarUsuario(@RequestParam String idUsuario,
+                                                         @RequestParam String idLugar){
         return reservaServicio.consultarReservaPorLugarUsuario(idUsuario, idLugar);
     }
 }
