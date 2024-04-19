@@ -12,10 +12,8 @@ public record CrearComentarioDTO (
         @NotBlank
         String mensaje,
 
-        @NotBlank
         LocalDateTime fecha,
 
-        @NotBlank
         Short calificacion,
 
         @NotNull @NotBlank

@@ -27,12 +27,12 @@ public class ComentarioController {
     }
 
     @GetMapping("/listar-comentarios-negocio")
-    public ComentariosNegocioOutDTO listarComentariosNegocio(@PathVariable String idLugar) {
+    public ComentariosNegocioOutDTO listarComentariosNegocio(@RequestParam String idLugar) {
         return comentarioServicio.listarComentariosNegocio(idLugar);
     }
 
     @GetMapping("/calcular-promedio-negocio")
-    public Double calcularPromedioCalificacionesPorNegocio(@PathVariable String idLugar) {
+    public Double calcularPromedioCalificacionesPorNegocio(@RequestParam String idLugar) {
         return comentarioServicio.calcularPromedioCalificacionesPorNegocio(idLugar);
     }
 }

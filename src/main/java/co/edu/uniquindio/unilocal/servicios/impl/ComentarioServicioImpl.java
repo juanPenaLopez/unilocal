@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,7 +43,13 @@ public class ComentarioServicioImpl implements ComentarioServicio {
         comentario.setCodigoCliente(crearComentarioDTO.codigoCliente());
         comentario.setCalificacion(crearComentarioDTO.calificacion());
 
-        lugarOptional.get().getComentarios().add(comentario);
+        if(lugarOptional.get().getComentarios() == null){
+            List<Comentario> comentarios = new ArrayList<>();
+            comentarios.add(comentario);
+            lugarOptional.get().setComentarios(comentarios);
+        }else {
+            lugarOptional.get().getComentarios().add(comentario);
+        }
 
         lugarRepo.save(lugarOptional.get());
 

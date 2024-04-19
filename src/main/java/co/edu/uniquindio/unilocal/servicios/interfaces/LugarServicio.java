@@ -14,7 +14,7 @@ public interface LugarServicio {
 
     ResultadoDTO eliminarNegocio(String idNegocio) throws Exception;
 
-    ConsultarNegocioDTO buscarNegocios(String idLugar);
+    Lugar buscarNegocios(String idLugar) throws Exception;
 
     List<Lugar> filtrarPorEstado(Estado estado);
 

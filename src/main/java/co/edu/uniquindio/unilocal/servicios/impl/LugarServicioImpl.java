@@ -109,8 +109,15 @@ public class LugarServicioImpl implements LugarServicio {
     }
 
     @Override
-    public ConsultarNegocioDTO buscarNegocios(String idLugar) {
-        return null;
+    public Lugar buscarNegocios(String idLugar) throws Exception {
+
+        Optional<Lugar> lugarOptional = lugarRepo.findById(idLugar);
+
+        if(lugarOptional.isEmpty()){
+            throw new Exception("No existe el lugar con el id: " + idLugar);
+        }
+
+        return lugarOptional.get();
     }
 
     @Override
