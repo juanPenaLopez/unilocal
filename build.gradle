@@ -38,4 +38,6 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    environment 'SPRING_PROFILES_ACTIVE', 'test'
+    systemProperties System.getProperties()
 }
