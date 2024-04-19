@@ -38,7 +38,8 @@ public class LugarServicioTest {
 
     @Test
     void testCrearNegocioConNombreRepetido() {
-        CrearLugarDTO dto = new CrearLugarDTO("Cafe", CategoriaLugar.CAFETERIA, null, "Descripcion", null, null, null);
+        CrearLugarDTO dto = new CrearLugarDTO("Cafe", CategoriaLugar.CAFETERIA,
+                null, "Descripcion", null, null, null, null);
         when(lugarRepo.findByNombre("Cafe")).thenReturn(new Lugar());
 
         ResultadoDTO resultado = lugarServicio.crearNegocio(dto);
@@ -49,7 +50,9 @@ public class LugarServicioTest {
 
     @Test
     void testCrearNegocioExitoso() {
-        CrearLugarDTO dto = new CrearLugarDTO("Cafe", CategoriaLugar.CAFETERIA, null, "Descripcion", null, null, null);
+        CrearLugarDTO dto = new
+                CrearLugarDTO("Cafe", CategoriaLugar.CAFETERIA,
+                null, "Descripcion", null, null, null, null);
         when(lugarRepo.findByNombre("Cafe")).thenReturn(null);
         when(lugarRepo.save(any(Lugar.class))).thenAnswer(i -> i.getArguments()[0]);
 
@@ -65,7 +68,9 @@ public class LugarServicioTest {
         when(lugarRepo.findById("1")).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(Exception.class, () -> {
-            lugarServicio.actualizarNegocio(new ActualizarNegocioDTO("1", "Cafe", "Cafeteria", "Descripcion", "Ubicacion", null, null, null));
+            lugarServicio.actualizarNegocio(new ActualizarNegocioDTO(
+                    "Cafe", CategoriaLugar.CAFETERIA, null,
+                    "Descripcion", null, null, null, null));
         });
 
         assertEquals("No se encuentra el lugar con id: 1", exception.getMessage());
@@ -77,7 +82,9 @@ public class LugarServicioTest {
         when(lugarRepo.findById("1")).thenReturn(Optional.of(lugarExistente));
         when(lugarRepo.save(any(Lugar.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        ActualizarNegocioDTO dto = new ActualizarNegocioDTO("1", "Cafe Updated", "Cafeteria", "Descripcion Updated", "Ubicacion Updated", null, null, null);
+        ActualizarNegocioDTO dto = new ActualizarNegocioDTO(
+                "Cafe Updated", CategoriaLugar.CAFETERIA, null,
+                "Descripcion Updated", null, null, null, null);
         ResultadoDTO resultado = lugarServicio.actualizarNegocio(dto);
 
         assertTrue(resultado.isExitoso());
