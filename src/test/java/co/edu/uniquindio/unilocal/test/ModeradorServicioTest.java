@@ -62,7 +62,7 @@ public class ModeradorServicioTest {
     @Test
     void testCambiarPassword() throws Exception {
         // Configurar comportamiento simulado
-        CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO("54321", "12345", "tokenDeValidación");
+        CambioPasswordDTO cambioPasswordDTO = new CambioPasswordDTO("7654321", "12345", "tokenDeValidación");
         ResultadoDTO resultadoEsperado = new ResultadoDTO();
         when(moderadorServicioMock.cambiarPassword(cambioPasswordDTO)).thenReturn(resultadoEsperado);
 
