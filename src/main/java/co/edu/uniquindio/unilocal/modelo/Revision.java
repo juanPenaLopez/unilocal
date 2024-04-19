@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @Setter
 @EqualsAndHashCode
 @RequiredArgsConstructor
-@NoArgsConstructor
 public class Revision implements Serializable {
 
     private String id;
