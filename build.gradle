@@ -35,9 +35,3 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 }
-
-test {
-    useJUnitPlatform()
-    environment 'SPRING_PROFILES_ACTIVE', 'test'
-    systemProperties System.getProperties()
-}
