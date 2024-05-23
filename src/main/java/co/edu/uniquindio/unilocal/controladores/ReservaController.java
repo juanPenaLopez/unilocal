@@ -44,4 +44,9 @@ public class ReservaController {
                                                          @RequestParam String idLugar){
         return reservaServicio.consultarReservaPorLugarUsuario(idUsuario, idLugar);
     }
+
+    @GetMapping("/consultar-reserva-usuario")
+    public List<Reserva> consultarReservaPorUsuario(@RequestParam String idUsuario) {
+        return reservaServicio.consultarReservaPorUsuario(idUsuario);
+    }
 }

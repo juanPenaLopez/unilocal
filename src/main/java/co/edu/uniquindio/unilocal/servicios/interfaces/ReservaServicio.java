@@ -19,4 +19,6 @@ public interface ReservaServicio {
     List<Reserva> consultarReservasPorEstadoUsuario(String idUsuario, EstadoReserva estadoReserva);
 
     List<Reserva> consultarReservaPorLugarUsuario(String idUsuario, String idLugar);
+
+    List<Reserva> consultarReservaPorUsuario(String idUsuario);
 }

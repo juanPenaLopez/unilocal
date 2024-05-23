@@ -115,4 +115,9 @@ public class ReservaServicioImpl implements ReservaServicio {
     public List<Reserva> consultarReservaPorLugarUsuario(String idUsuario, String idLugar) {
         return reservaRepo.findAllByIdUsuarioAndIdLugar(idUsuario, idLugar);
     }
+
+    @Override
+    public List<Reserva> consultarReservaPorUsuario(String idUsuario) {
+        return reservaRepo.findAllByIdUsuario(idUsuario);
+    }
 }
