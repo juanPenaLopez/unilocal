@@ -2,7 +2,6 @@ package co.edu.uniquindio.unilocal.servicios.impl;
 
 import co.edu.uniquindio.unilocal.dto.*;
 import co.edu.uniquindio.unilocal.enums.Estado;
-import co.edu.uniquindio.unilocal.modelo.Ciudad;
 import co.edu.uniquindio.unilocal.modelo.Usuario;
 import co.edu.uniquindio.unilocal.repositorios.CiudadRepo;
 import co.edu.uniquindio.unilocal.repositorios.UsuarioRepo;
@@ -31,6 +30,13 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     private EmailServicio emailServicio;
     private JWTUtils jwtUtils;
 
+    @Autowired
+    public UsuarioServicioImpl(UsuarioRepo usuarioRepo, CiudadRepo ciudadRepo, EmailServicio emailServicio) {
+        this.usuarioRepo = usuarioRepo;
+        this.ciudadRepo = ciudadRepo;
+        this.emailServicio = emailServicio;
+    }
+
     @Override
     public ResultadoDTO eliminarCuenta(String idUsuario) throws Exception {
 
@@ -55,14 +61,14 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     public ResultadoDTO enviarLinkRecuperacion(String email) throws Exception {
 
         String token = generarToken();
-        String linkRecuperacion = "http://localhost:8080/recuperacion?token=" + token;
+        String linkRecuperacion = "http://localhost:8080/recuperar-contrasena-link";
 
         String asunto = "Recuperación de Contraseña";
         String cuerpo = "<h1>Recuperación de Contraseña</h1>"
                 + "<p>Haz click en el siguiente enlace para restablecer tu contraseña:</p>"
                 + "<a href='" + linkRecuperacion + "'>Restablecer Contraseña</a>";
 
-        EmailDTO emailDTO = new EmailDTO(email, asunto, cuerpo);
+        EmailDTO emailDTO = new EmailDTO(asunto, cuerpo, email);
 
         return emailServicio.enviarCorreo(emailDTO);
     }
@@ -73,10 +79,6 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         ResultadoDTO resultadoDTO = new ResultadoDTO();
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-        if (!tokenValido(cambioPasswordDTO.token())) {
-            throw new Exception("Token inválido o expirado.");
-        }
 
         Usuario usuario = usuarioRepo.findById(cambioPasswordDTO.id()).orElseThrow(() ->
                 new Exception("No se encuentra el usuario con el id proporcionado.")
