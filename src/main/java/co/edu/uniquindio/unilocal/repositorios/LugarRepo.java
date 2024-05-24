@@ -28,4 +28,6 @@ public interface LugarRepo extends MongoRepository<Lugar, String> {
     Double calcularPromedioCalificaciones(String lugarId);
 
     List<Lugar> findAllByEstado(Estado estado);
+
+    List<Lugar> findAllByUsuarioCreacion(String idUsuario);
 }

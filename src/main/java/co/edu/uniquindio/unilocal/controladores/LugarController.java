@@ -8,6 +8,8 @@ import co.edu.uniquindio.unilocal.enums.Estado;
 import co.edu.uniquindio.unilocal.modelo.Lugar;
 import co.edu.uniquindio.unilocal.servicios.interfaces.LugarServicio;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,5 +50,10 @@ public class LugarController {
     @GetMapping("/buscar-negocios")
     public Lugar buscarNegocios(@RequestParam String idLugar) throws Exception {
         return lugarServicio.buscarNegocios(idLugar);
+    }
+
+    @GetMapping("/buscar-negocios-usuario")
+    public List<Lugar> consultarLugaresUsuario(@RequestParam String idUsuario){
+        return lugarServicio.consultarLugaresUsuario(idUsuario);
     }
 }

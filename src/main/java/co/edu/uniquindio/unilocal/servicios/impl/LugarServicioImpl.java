@@ -167,4 +167,8 @@ public class LugarServicioImpl implements LugarServicio {
     private boolean estaRepetidoNombreNegocio(@NotBlank @NotEmpty String nombreNegocio){
         return lugarRepo.findByNombre(nombreNegocio) != null;
     }
+
+    public List<Lugar> consultarLugaresUsuario(@NotBlank @NotEmpty String idUsuario){
+        return lugarRepo.findAllByUsuarioCreacion(idUsuario);
+    }
 }

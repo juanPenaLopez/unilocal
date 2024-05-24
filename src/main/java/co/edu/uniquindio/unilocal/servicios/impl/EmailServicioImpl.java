@@ -22,7 +22,7 @@ public class EmailServicioImpl implements EmailServicio {
         helper.setSubject(emailDTO.asunto());
         helper.setText(emailDTO.cuerpo(), true);
         helper.setTo(emailDTO.destinatario());
-        helper.setFrom("no_reply@dominio.com");
+        helper.setFrom("unilocal899@gmail.com");
         javaMailSender.send(mensaje);
 
         ResultadoDTO resultado = new ResultadoDTO();
