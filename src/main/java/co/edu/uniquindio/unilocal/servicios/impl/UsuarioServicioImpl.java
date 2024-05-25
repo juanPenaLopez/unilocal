@@ -61,7 +61,7 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     public ResultadoDTO enviarLinkRecuperacion(String email) throws Exception {
 
         String token = generarToken();
-        String linkRecuperacion = "http://localhost:8080/recuperar-contrasena-link";
+        String linkRecuperacion = "http://localhost:4200/recuperar-contrasena-link";
 
         String asunto = "Recuperación de Contraseña";
         String cuerpo = "<h1>Recuperación de Contraseña</h1>"
