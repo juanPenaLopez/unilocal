@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CiudadServicioImpl implements CiudadServicio {
 
-    private CiudadRepo ciudadRepository;
+    private final CiudadRepo ciudadRepository;
 
     @Override
     public List<Ciudad> obtenerTodasLasCiudades() {

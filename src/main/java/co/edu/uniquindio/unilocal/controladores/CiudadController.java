@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CiudadController {
 
-    private CiudadServicio ciudadService;
+    private final CiudadServicio ciudadService;
 
     @GetMapping("/consultar-ciudades")
     public ResponseEntity<List<Ciudad>> obtenerCiudadesParaSelect() {
